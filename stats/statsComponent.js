@@ -14,16 +14,35 @@ export default class StatsComponent extends Component {
     }
 
     componentDidMount() {
-        axios.post(`http://${ip}:${port}/fetchData`).then((response) => {
-            console.log(response.data)
-            // this.setState({ data: response.data})
+        axios.post(`http://${ip}:${port}/fetchActivityData`).then((response) => {
+            this.setState({ data: response.data.reverse() })
         })
     }
 
     render() {
         return (
-            <View>
-            </View>
+            this.state.data.map((value, index, array) => {
+                let isOutside;
+                if (array[index].isoutside) {
+                    isOutside = 'outside'
+                } else {
+                    isOutside = 'inside'
+                }
+                if ( array[index -1 ] && (array[index].date == array[index - 1].date) ) {
+                    return (
+                        <View key={index}>
+                            <Text>{array[index].hour}:{array[index].min} - {array[index].type} {isOutside}</Text>
+                        </View>
+                    )
+                } else {
+                    return (
+                        <View key={index}>
+                            <Text>{array[index].month}/{array[index].date}/{array[index].year}</Text>
+                            <Text>{array[index].hour}:{array[index].min} - {array[index].type} {isOutside}</Text>
+                        </View>
+                    )
+                }
+            })
         )
     }
 }

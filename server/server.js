@@ -23,20 +23,30 @@ client.connect(function (err) {
 });
 
 app.post("/addVisit", (req, res) => {
-    console.log(req.body)
+    console.log(req.body.isOutside)
     client.query(`INSERT INTO bathroomvisits VALUES (
       '${req.body.type}', 
       ${req.body.hour}, 
       ${req.body.min},
       ${req.body.date},
       ${req.body.month},
-      ${req.body.year})`
+      ${req.body.year},
+      ${req.body.isOutside}
+    )`
     ).then((result) => {
         res.json(`Logged new ${req.body.type}`)
     }) 
 })
 
-app.post("/fetchData", (req, res) => {
+app.post("/addOutsideTime", (req, res) => {
+  console.log(req.body)
+  client.query(`INSERT INTO time_outside VALUES (
+    ${req.body.start},
+    ${req.body.end}
+  )`)
+})
+
+app.post("/fetchActivityData", (req, res) => {
   client.query(`SELECT * FROM bathroomvisits`).then((result) => {
     res.json(result.rows)
   })

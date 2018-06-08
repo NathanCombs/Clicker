@@ -5,6 +5,10 @@ import axios from 'axios';
 const ip = '192.168.254.187';
 const port = '5000';
 
+var addZero = (n) => {
+    return (n < 10 ? '0' : '') + n;
+  }
+
 export default class ActivityComponent extends Component {
     constructor() {
         super();
@@ -26,7 +30,8 @@ export default class ActivityComponent extends Component {
             min: now.getMinutes(),
             date: now.getDate(),
             month: now.getMonth(),
-            year: now.getFullYear()
+            year: now.getFullYear(),
+            isOutside: this.props.isOutside,
         })
     }
 
@@ -36,10 +41,11 @@ export default class ActivityComponent extends Component {
         axios.post(`http://${ip}:${port}/addVisit`, {
             type: 'pee',
             hour: now.getHours(),
-            min: now.getMinutes(),
+            min: addZero(now.getMinutes()),
             date: now.getDate(),
             month: now.getMonth(),
-            year: now.getFullYear()
+            year: now.getFullYear(),
+            isOutside: this.props.isOutside,
         })
     }
 

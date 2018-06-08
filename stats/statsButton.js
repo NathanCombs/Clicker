@@ -35,7 +35,7 @@ export default class StatsButton extends Component {
 const styles = StyleSheet.create({
     container: {
       height: 50,
-      alignSelf: 'stretch',
       justifyContent: 'center',
+      alignSelf: 'stretch'
     }
 })
